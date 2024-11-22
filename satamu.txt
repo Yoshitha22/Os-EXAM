@@ -1,0 +1,283 @@
+1. Greatest of Three Numbers 
+#!/bin/bash
+ if [ $1 -gt $2 ] && [ $1 -gt $3 ]; then
+  echo "$1 is the greatest."
+ elif [ $2 -gt $3 ]; then
+  echo "$2 is the greatest."
+ else
+  echo "$3 is the greatest."
+ f
+ i
+ ./script.sh 10 20 30 
+``````````````````````````````````````````````
+2. Even or Odd 
+#!/bin/bash
+ if [ $(($1 % 2)) -eq 0 ]; then
+  echo "$1 is Even."
+ else
+  echo "$1 is Odd."
+ f
+ i
+ ./script.sh 45 
+````````````````````````````````````````````
+3. Average of n Numbers 
+#!/bin/bash
+ sum=0
+ count=$#
+ for num in "$@"; do
+  sum=$(($sum + $num))
+ done
+ echo "Average: $(echo "$sum / $count" | bc -l)”
+ ./script.sh 10 20 30 40 
+```````````````````````````````````````````````````````````
+4. Prime Number Check 
+#!/bin/bash
+ n=$1
+ for ((i = 2; i <= n / 2; i++)); do
+  if [ $(($n % $i)) -eq 0 ]; then
+    echo "$n is not a prime number."
+    exit
+ f
+ i
+ done
+ echo "$n is a prime number.”
+ ./script.sh 17 
+``````````````````````````````````````````````````````````````
+5. Check if Input is a Number or String 
+#!/bin/bash
+ if [[ $1 =~ ^[0-9]+$ ]]; then
+  echo "Input is a number."
+ else
+  echo "Input is a string."
+f
+ i
+ ./script.sh hello 
+````````````````````````````````````````````````````````````````````````
+6. Characters and Words in a File 
+#!/bin/bash
+ while read -r line; do
+  echo "Line: $line"
+  echo "Characters: ${#line}"
+  echo "Words: $(echo $line | wc -w)"
+ done < $1
+ ./script.sh sample.txt 
+``````````````````````````````````````````````````````````````````````````````
+7. Fibonacci Series 
+#!/bin/bash
+ a=0
+ b=1
+ n=$1
+ echo "Fibonacci series:"
+ for ((i = 0; i < n; i++)); do
+  echo -n "$a "
+  fn=$((a + b))
+  a=$b
+  b=$fn
+ done
+ echo
+ ./script.sh 10 
+````````````````````````````````````````````````````````````````
+8. Factorial of a Number 
+#!/bin/bash
+ factorial=1
+ for ((i = 1; i <= $1; i++)); do
+  factorial=$((factorial * i))
+ done
+ echo "Factorial: $factorial”
+ ./script.sh 5 
+``````````````````````````````````````````````````````````
+9. Sum of Digits 
+#!/bin/bash
+ num=$1
+ sum=0
+ while [ $num -gt 0 ]; do
+  sum=$(($sum + $num % 10))
+  num=$(($num / 10))
+ done
+ echo "Sum of digits: $sum”
+ ./script.sh 12345 
+````````````````````````````````````````````````````````
+10.string is a palindrome. 
+!/bin/bash 
+# Check if a string is provided 
+if [ $# -ne 1 ]; then 
+ echo "Usage: $0 <string>" 
+ exit 1 
+fi 
+# Read the input string 
+input=$1 
+# Reverse the string 
+reversed=$(echo "$input" | rev) 
+# Check if the original string and reversed string are the same 
+if [ "$input" = "$reversed" ]; then 
+ echo "The string '$input' is a palindrome." 
+else 
+ echo "The string '$input' is not a palindrome." 
+fi 
+```````````````````````````````````````````````````````````````````````````
+11. String Length Validation 
+#!/bin/bash
+ if [ ${#1} -ge 5 ]; then
+  echo "Valid string."
+ else
+  echo "Invalid string: less than 5 characters."
+ f
+ i
+ ./script.sh "hello" 
+``````````````````````````````````````````````````````````````````````````
+12.string length 
+#!/bin/bash 
+# Check if an argument is provided 
+if [ $# -ne 1 ]; then 
+ echo "Usage: $0 <string>" 
+ exit 1 
+fi 
+# Read the input string from the argument 
+input=$1 
+# Calculate the length of the string 
+length=${#input} 
+# Echo the length of the string 
+echo "The length of the string '$input' is $length." 
+````````````````````````````````````````````````````````````````````````````
+
+13. Delete Matching Files in Two Directories 
+#!/bin/bash
+ for file in "$1"/*; do
+  if [ -f "$2/$(basename $file)" ]; then
+    rm "$file"
+ f
+ i
+ done
+ ./script.sh dir1 dir2 
+````````````````````````````````````````````````````````````````````
+14. Display Running Processes 
+#!/bin/bash
+ for i in {1..3}; do
+  ps
+  sleep 30
+ done
+ ./script.sh
+``````````````````````````````````````````````````````````````
+ 15. Last Modification Time 
+#!/bin/bash
+ echo "Last modification time: $(stat -c %y $1)”
+ ./script.sh file.txt
+``````````````````````````````````````````````````````````````
+16.check the spellings of any text document 
+!/bin/bash 
+if [ $# -ne 1 ]; then 
+ echo "Usage: $0 <filename>" 
+ exit 1 
+fi 
+filename=$1 
+if [ ! -f "$filename" ]; then 
+ echo "Error: File '$filename' does not exist." 
+ exit 1 
+fi 
+echo "Checking spelling in the file '$filename':" 
+aspell list < "$filename" 
+`````````````````````````````````````````````````````````````````
+17..encrypt text file 
+#!/bin/bash 
+# Check if a filename is provided as an argument 
+if [ -z "$1" ]; then 
+ echo "Usage: $0 filename" 
+ exit 1 
+fi 
+# Check if the file exists 
+if [ ! -f "$1" ]; then 
+ echo "File not found!" 
+ exit 1 
+fi 
+# Encrypt the file using gpg with symmetric encrypƟon
+# This will prompt the user for a passphrase 
+gpg --symmetric --cipher-algo AES256 "$1" 
+# Check if the encrypƟon was successful
+if [ $? -eq 0 ]; then 
+ echo "File '$1' has been successfully encrypted." 
+ echo "Encrypted file: $1.gpg" 
+else 
+ echo "EncrypƟon failed."
+ exit 1 
+f
+``````````````````````````````````````````````````````````````````
+ 18. Extract Wordlist 
+#!/bin/bash
+ grep -oE '\w+' $1 | sort | uniq > wordlist.txt
+ ./script.sh file.txt 
+``````````````````````````````````````````````````````````````````
+19.remoes all the blank spaces 
+#!/bin/bash 
+# Check if a fileame is provided as an argument 
+if [ $# -ne 2 ]; then 
+ echo "Usage: $0 <input-file> <output-file>" 
+ exit 1 
+fi 
+# Get the input and output filenames 
+input_file=$1 
+output_file=$2 
+# Check if the input file exists 
+if [ ! -f "$input_file" ]; then 
+ echo "Error: File '$input_file' does not exist." 
+ exit 1 
+fi 
+# Remove all blank spaces (spaces, tabs, and newlines) and redirect the output 
+tr -d '[:space:]' < "$input_file" > "$output_file" 
+# Confirm successful processing 
+echo "All blank spaces have been removed. Output saved to '$output_file'." 
+``````````````````````````````````````````````````````````````````````````````````````````
+20. Convert Filenames to Lowercase 
+#!/bin/bash
+ for file in "$@"; do
+  mv "$file" "$(echo $file | tr 'A-Z' 'a-z')"
+ done
+ ./script.sh File1.txt File2.txt 
+`````````````````````````````````````````````````````````````````````
+21. Translate Characters to Lowercase 
+#!/bin/bash
+ tr 'A-Z' 'a-z' < $1 > lowercase_$1
+ ./script.sh file.txt 
+````````````````````````````````````````````````````````````````````````
+22. Combine Files and Word Count 
+#!/bin/bash
+ cat $1 $2 $3 > combined.txt
+ wc -w combined.txt
+ ./script.sh file1.txt file2.txt file3.txt 
+`````````````````````````````````````````````````````````````
+23. Split Odd and Even Lines 
+#!/bin/bash
+ awk 'NR % 2 == 0' $1 > evenfile
+ awk 'NR % 2 != 0' $1 > oddfile
+ ./script.sh file.txt 
+``````````````````````````````````````````````````````````````````````````````````````
+24. Delete Even Lines 
+#!/bin/bash
+ awk 'NR % 2 != 0' $1 > temp && mv temp $1
+ ./script.sh file.txt 
+``````````````````````````````````````````````````````````````
+25. Display System InformaƟon 
+#!/bin/bash 
+ echo "Username: $USER" 
+ echo "*********" 
+ echo "Date and Time: $(date)" 
+ echo "*********" 
+ echo "Who is logged in:" 
+ who 
+ echo “*********" 
+ ./script.sh 25.Display System InformaƟon
+#!/bin/bash 
+# Get the username 
+username=$(whoami) 
+current_dateƟme=$(date)
+logged_in_users=$(who) 
+echo "Username: $username" 
+echo "*******" 
+echo "Current date and Ɵme: $current_dateƟme"
+echo "*******" 
+echo "Users logged in:" 
+echo "$logged_in_users" 
+echo "*******"
+
+
+
+``````````````````````````````````````````````````````````````````````````
